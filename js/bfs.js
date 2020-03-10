@@ -9,10 +9,9 @@ var numDiv = 70;
 var numDivY = 28;
 var counter = 0;
 let grid = new Array(numDiv);
-var stack = [];
+var queue = [];
 var adj = new Array(numDiv * numDivY);
 var holdMouse = false;
-var del = 0;
 setup();
 
 var canvas = document.getElementById("canvas");
@@ -37,6 +36,7 @@ function setup() {
             counter++;
         }
     }
+    counter = 0;
 
     grid[20][10] = 3;
     grid[10][10] = 5;
@@ -88,8 +88,6 @@ function printArray(){
 }
 
 function start(event){
-
-
     holdMouse = true;
     add(event);
 }
@@ -113,66 +111,50 @@ function stop(){
 }
 
 
-function search(){
+function search(r, c){
     reset();
-    stack.push(new Node(10,10));
-    helperStack();
+    queue.push(new Node(10,10));
+    helperQueue();
 }
 //-----------------------------
 
 adj[numDivY * 10 + 10] = (numDivY * 10 + 10);
 
-async function helperStack(){
+async function helperQueue(){
     var thisNode;
     var r, c;
     let currR, currC;
     var bob;
     var trueR, trueC;
-    var next = false;
+    var pass = false;
+    var indx = 0;
 
-    thisNode = stack.pop();
+    while(indx < queue.length){
+        thisNode = queue[indx];
+        indx++;
         r = thisNode.r;
         c = thisNode.c;
-        for(let i = 0; i < 4; i++){
-            currR = r + arrR[i];
-            currC = c + arrC[i];
-
-            if(check(currR, currC) == true){
-                next = true;
-                adj[currR * numDivY + currC] = r * numDivY + c;
-                stack.push(new Node(currR, currC));
-            }
-        }
-        if(next == true)
-            bob = await doSetTimeout();
-
-
-    while(stack.length != 0){
-        next = false;
-        thisNode = stack.pop();
-        r = thisNode.r;
-        c = thisNode.c;
-
-        if(grid[r][c] == 3){
-            trueR = r;
-            trueC = c;
-            break;
-        }
-        
-        grid[r][c] = 2;
 
         for(let i = 0; i < 4; i++){
             currR = r + arrR[i];
             currC = c + arrC[i];
 
             if(check(currR, currC) == true){
-                next = true;
-                adj[currR * numDivY + currC] = r * numDivY + c;
-                stack.push(new Node(currR, currC));
+                if(grid[currR][currC] == 3){
+                    trueR = r;
+                    trueC = c;
+                    indx = queue.length;
+                    break;
+                }
+                pass = true;
+                grid[currR][currC] = 2;
+                adj[currR *numDivY + currC] = r * numDivY + c;
+                queue.push(new Node(currR, currC));
             }
         }
-        if(next == true)
+        if(pass == true){
             bob = await doSetTimeout();
+        }
     }
 
     ending(trueR * numDivY + trueC);
@@ -182,7 +164,7 @@ function doSetTimeout() {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(0);
-      }, 20);
+      }, 10);
     });
 }
 
@@ -196,7 +178,6 @@ function doSetTimeoutFin() {
 
   function check(r, c){
     if(r < 0 || r >= numDiv || c < 0 || c >= numDivY){
-        console.log(r, c);
         return false;
     }
     if(grid[r][c] == 0 || grid[r][c] == 3) return true;
@@ -205,16 +186,13 @@ function doSetTimeoutFin() {
 
 async function ending(num){
     var r, c, bob;
-
     while(adj[num] != num){
-        num = adj[num];
-
         var r = Math.floor(num/numDivY);
         var c = num % numDivY;
         grid[r][c] = 4;
+        num = adj[num];
         bob = await doSetTimeoutFin();
     }
-    grid[10][10] = 5;
 }
 
 function reset(){
@@ -232,6 +210,6 @@ function reset(){
             }
         }
     }
-    stack = [];
+    queue = [];
     adj[10 * numDivY + 10] = 10 * numDivY + 10;
 }
