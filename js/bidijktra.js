@@ -126,12 +126,20 @@ async function helper(){
     while(indx < prioq.length || indx2 < prioq2.length){
         pass = false;
         if(alt){
+            if(indx >= prioq.length){
+                alt = !alt;
+                continue;
+            }
             thisNode = prioq[indx];
             r = thisNode.r;
             c = thisNode.c;
             w = weight[r][c];
         }
         else{
+            if(indx2 >= prioq2.length){
+                alt = !alt;
+                continue;
+            }
             thisNode = prioq2[indx2];
             r = thisNode.r;
             c = thisNode.c;

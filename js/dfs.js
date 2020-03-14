@@ -13,6 +13,7 @@ var stack = [];
 var adj = new Array(numDiv * numDivY);
 var holdMouse = false;
 var del = 0;
+var isrest = false;
 setup();
 
 var canvas = document.getElementById("canvas");
@@ -128,7 +129,7 @@ async function helperStack(){
     let currR, currC;
     var bob;
     var trueR, trueC;
-    var next = false;
+    var pass = false;
 
     thisNode = stack.pop();
         r = thisNode.r;
@@ -138,43 +139,39 @@ async function helperStack(){
             currC = c + arrC[i];
 
             if(check(currR, currC) == true){
-                next = true;
                 adj[currR * numDivY + currC] = r * numDivY + c;
                 stack.push(new Node(currR, currC));
             }
         }
-        if(next == true)
-            bob = await doSetTimeout();
 
 
     while(stack.length != 0){
-        next = false;
         thisNode = stack.pop();
         r = thisNode.r;
         c = thisNode.c;
+
+        pass = false;
 
         if(grid[r][c] == 3){
             trueR = r;
             trueC = c;
             break;
         }
-        
-        grid[r][c] = 2;
 
         for(let i = 0; i < 4; i++){
             currR = r + arrR[i];
             currC = c + arrC[i];
 
             if(check(currR, currC) == true){
-                next = true;
+                pass = true;
+                grid[r][c] = 2;
                 adj[currR * numDivY + currC] = r * numDivY + c;
                 stack.push(new Node(currR, currC));
             }
         }
-        if(next == true)
+        if(pass)
             bob = await doSetTimeout();
     }
-
     ending(trueR * numDivY + trueC);
 }
 

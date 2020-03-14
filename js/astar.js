@@ -5,13 +5,14 @@ class Node{
     }
 }
 
-var numDiv = 70;
-var numDivY = 28;
+var numDiv = 70, numDivY = 28;
 var counter = 0;
-let grid = new Array(numDiv);
+const INT_MAX = 10000000;
+var grid = new Array(numDiv);
 var adj = new Array(numDiv * numDivY);
 var weight = new Array(numDiv);
 var stepsize = new Array(numDiv);
+var totWeight = new Array(numDiv)
 var prioq = [];
 var holdMouse = false;
 
@@ -25,17 +26,18 @@ ctx.lineWidth = 0.1;
 var animate = window.setInterval(draw,6);
 
 var dim = canvas.clientWidth;
-let arrR = [0, -1, 0,1];
-let arrC = [1, 0,-1, 0];
+let arrC = [0, -1, 0,1];
+let arrR = [1, 0,-1, 0];
 
 function setup() {
     for(var i = 0; i < numDiv; i++){
         grid[i] = Array(numDivY);
         weight[i] = Array(numDivY);
+        totWeight[i] = Array(numDivY);
         stepsize[i] = Array(numDivY);
         for(var j = 0; j < numDivY; j++){
             grid[i][j] = 0;
-            weight[i][j] = 1000000;
+            weight[i][j] = INT_MAX;
             stepsize[i][j] = 1;
             adj[counter] = -1;
             counter++;
@@ -43,7 +45,7 @@ function setup() {
     }
     counter = 0;
 
-    grid[20][10] = 3;
+    grid[30][20] = 3;
     grid[10][10] = 5;
 
 }
@@ -109,7 +111,11 @@ function stop(){
 function search(){
     reset();
     prioq.push(new Node(10, 10));
+    prioq.push(new Node(40, 40));
     weight[10][10] = 0;
+    weight[40][40] = INT_MAX;
+    totWeight[10][10] = calcH(10, 10);
+    totWeight[40][40] = calcH(40, 40);
     helper();
 }
 
@@ -130,8 +136,8 @@ async function helper(){
         c = thisNode.c;
         w = weight[r][c];
 
-        if(grid[r][c] == 2) {
-            index++;
+        if(grid[r][c] == 2){
+            indx++;
             continue;
         }
 
@@ -142,6 +148,7 @@ async function helper(){
             currR = r + arrR[i];
             currC = c + arrC[i];
 
+            //console.log(weight[r][c] + " " + totWeight[r][c] + " -- " + weight[currR][currC] + " " + totWeight[currR][currC]);
             if(check(currR, currC, w) == true){
                 if(grid[currR][currC] == 3){
                     trueR = r;
@@ -150,8 +157,7 @@ async function helper(){
                     break;
                 }
                 adj[currR *numDivY + currC] = r * numDivY + c;
-                weight[currR][currC] = w + stepsize[currR][currC];
-                qin(currR, currC, indx)
+                qin(currR, currC, indx);
             }
         }
         grid[10][10] = 5;
@@ -159,36 +165,55 @@ async function helper(){
     }
 
     ending(trueR * numDivY + trueC);
+    var a, b, c;
+    for(var i = 0; i < prioq.length; i++)
+    { 
+        a = prioq[i].r;
+        b = prioq[i].c
+        c = totWeight[a][b];
+        //console.log(a + " " + b + " " + c);
+    }
     grid[10][10] = 5;
 }
 
 
 //binary search insert
 function qin(r, c, indx){
-    var w = weight[r][c];
-    var low = indx; 
+    var w = totWeight[r][c];
+    var low = indx+1; 
     var high = prioq.length - 1;
     var mid = Math.floor((low + high)/2);
+    var before = false;
 
-    if(w > weight[prioq[high].r][prioq[high].c]){
+    if(w > totWeight[prioq[high].r][prioq[high].c]){
         prioq.push(new Node(r, c));
+        return;
+    }
+    if(w < totWeight[prioq[low].r][prioq[low].c]){
+        prioq.splice(low, 0, new Node(r,c));
         return;
     }
 
     while(low < high){
-        if(w == weight[prioq[mid].r][prioq[mid].c]){
+        if(w == totWeight[prioq[mid].r][prioq[mid].c]){
             prioq.splice(mid+1, 0, new Node(r,c));
             return;
         }
-        else if(w < weight[prioq[mid].r][prioq[mid].c]){
+        else if(w < totWeight[prioq[mid].r][prioq[mid].c]){
             high = mid-1;
+            before = true;
         }
         else{
             low = mid+1;
+            before = false;
         }
+
         mid = Math.floor((low + high)/2);
     }
-    prioq.splice(high+1, 0, new Node(r,c));
+    if(before)
+        prioq.splice(high+1, 0, new Node(r,c));
+    else
+        prioq.splice(high, 0, new Node(r,c));
     return;
 }
 
@@ -206,7 +231,7 @@ function doSetTimeout() {
     return new Promise(resolve => {
       setTimeout(() => {
         resolve(0);
-      }, 10);
+      }, 20);
     });
 }
 
@@ -218,13 +243,21 @@ function doSetTimeoutFin() {
     });
 }
 
-  function check(r, c, w){
+function check(r, c, w){
     if(r < 0 || r >= numDiv || c < 0 || c >= numDivY){
         return false;
     }
     
     if(grid[r][c] == 0 || grid[r][c] == 3){
         if(w + stepsize[r][c] < weight[r][c]){
+            if(totWeight[r][c] == -1){
+                totWeight[r][c] = calcH(r, c) + w + stepsize[r][c];
+            }
+            else{
+                totWeight[r][c] -= (weight[r][c] - (w + stepsize[r][c]));
+            }
+            weight[r][c] = w + stepsize[r][c];
+            console.log(r + " " + c);
             return true
         }
         return false;
@@ -248,10 +281,12 @@ function reset(){
     counter = 0;
     for(var i = 0; i < numDiv; i++){
         for(var j = 0; j < numDivY; j++){
-            weight[i][j] = 1000000;
-            num = grid[i][j];
+            weight[i][j] = INT_MAX;
+            totWeight[i][j] = -1;
             adj[counter] = -1;
             counter++;
+
+            num = grid[i][j];
             if(num == 2 || num == 4){
                 grid[i][j] = 0;
                 ctx.fillStyle = "#fff";
@@ -261,4 +296,12 @@ function reset(){
     }
     prioq = [];
     adj[10 * numDivY + 10] = 10 * numDivY + 10;
+}
+
+
+function calcH(r, c){
+    var dx = (30-r) * (31-r);
+    var dy = Math.abs(20-c);
+    var D = 1;
+    return Math.floor(dx + dy);
 }

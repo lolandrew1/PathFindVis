@@ -126,14 +126,15 @@ async function helperQueue(){
     let currR, currC;
     var bob;
     var trueR, trueC;
-    var pass = false;
     var indx = 0;
+    var pass = false;
 
     while(indx < queue.length){
         thisNode = queue[indx];
         indx++;
         r = thisNode.r;
         c = thisNode.c;
+        pass = false;
 
         for(let i = 0; i < 4; i++){
             currR = r + arrR[i];
@@ -152,9 +153,8 @@ async function helperQueue(){
                 queue.push(new Node(currR, currC));
             }
         }
-        if(pass == true){
-            bob = await doSetTimeout();
-        }
+        if(pass)
+                bob = await doSetTimeout();
     }
 
     ending(trueR * numDivY + trueC);

@@ -4,14 +4,15 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Pathfinding Algorithms</title>
+
     <link rel = "icon" href = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\img\138240-200.png"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\css\style.css" rel="stylesheet">
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
-    <link href="C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\css\style.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 </head>
 <body>
@@ -46,23 +47,22 @@
 <div class = "container-fluid padding">
     <div class = "row text-center">
         <div class = "col-12">
-            <h1 class = "display-4">Depth-First Search</h1>
+            <h1 class = "display-4">A*</h1>
         </div>
         <div class = "col-12">
             <canvas id ="canvas" width = "1200px" height = "480px" style="background: #fff; margin:20px" onmousedown = "start(event)" onmousemove = "add(event)" onmouseup = "stop()"></canvas>
-            <script src = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\js\dfs.js"></script>
+            <script src = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\js\astar.js"></script>
         </div>
         <div class = "col-12">
             <button type = "button" class = "btn btn-primary" onclick = "search()">
                 Visualize
             </button>
             <button type = "button" class = "btn btn-primary" onclick = "reset()">
-                Reset 
+                Reset  
             </button>
         </div>
     </div>
 </div>
-
 
 
 <!--- Footer -->
@@ -89,3 +89,6 @@
 
 
 
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">

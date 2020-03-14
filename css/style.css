@@ -234,13 +234,10 @@ figure {
     padding: 1rem;
 }
 
-
-.cardHover:hover {
-  src = "C:\Users\Andrew\Desktop\JavaScriptWS\PathFindVis\img\team1.png"
+#cardLink{
+  text-decoration: none; 
+  color: inherit;
 }
-
-
-
 
 /*
 Extra small (xs) devices (portrait phones, less than 576px)
