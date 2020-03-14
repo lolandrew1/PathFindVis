@@ -21,7 +21,7 @@ description: >
 about_me: >
   ...
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://github.com/lolandrew1/PathFindVis/blob/master/html/index.html" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://www.youtube.com/" # the base hostname & protocol for your site, e.g. http://example.com
 
 select_options: clear-filters HTML5 CSS3 SCSS javaScript jQuery materialize charts.js React jekyll Ruby-on-Rails Sinatra front-end back-end finished current
 
