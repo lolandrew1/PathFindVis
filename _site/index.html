@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+    <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Pathfinding Algorithms</title>
+
+        <link rel = "icon" href = "assets\img\138240-200.png"/>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="assets\css\style.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+        <script src = "assets\js\index.js"></script>
+    </head>
+</html>
+
+<body>
+
+    <!DOCTYPE html>
+<html lang = eng>
+    <!-- Navigation -->
+    <nav class = "navbar navbar-expand-md navbar-light bg-light sticky-top">
+        <div class = "container-fluid">
+            <a class = "navbar-brand"><img src = "assets\img\pathfinderhead.png"></a>
+            <button class = "navbar-toggler" type = "button" data-toggle = "collapse"
+            data-target = "#navbarResponsive">
+                <span class = "navbar-toggler-icon"></span>
+            </button>
+
+            <div class = "collapse navbar-collapse" id = "navbarResponsive">
+                <ul class = "navbar-nav ml-auto">
+                    <li class = "nav-item active">
+                        <a class = "nav-link">Home</a>
+                    </li>
+                    <li class = "nav-item">
+                        <a class = "nav-link" href = "_layouts\applications.html">Applications</a>
+                    </li>
+                    <li class = "nav-item">
+                        <a class = "nav-link" href = "_layouts\connect.html">Connect</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</html>
+
+<!--- Meet the team -->
+<div class = "container-fluid padding">
+    <div class = "row welcome text-center">
+        <div class = "col-12">
+            <h1 class = "display-4">Grids</h1>
+        </div>
+    </div>
+</div>
+
+<!--- Cards -->
+<div class = "container-fluid padding">
+    <div class = "row padding">
+        <div class = "col-md-4">
+            <a id = "cardLink" href = "_layouts\dfs.html">
+                <div class = "card">
+                    <img class = "card-img-top" src = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\img\dfscov.jpg" onmouseover = "dfsMouseOver()" onmouseout = "dfsMouseOut()">
+                    <div class = "card-body">
+                        <h4 class = "card-title">Depth-First Search</h4>
+                        <p class = "card-text">Bob is the smartest guy ever 
+                            and he will make 35,000 dollars by the end of his 
+                            sophomore year in college and buy a tesla
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class = "col-md-4">
+            <a id = "cardLink" href = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\html\bfs.html">
+                <div class = "card">
+                    <img class = "card-img-top" src = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\img\bfscov.jpg" onmouseover = "bfsMouseOver()" onmouseout = "bfsMouseOut()">
+                    <div class = "card-body">
+                        <h4 class = "card-title">Breadth-First Search</h4>
+                        <p class = "card-text">Joe is the smartest guy ever 
+                            and he will make 35,000 dollars by the end of his 
+                            sophomore year in college and buy a tesla
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class = "col-md-4">
+            <a id = "cardLink" href = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\html\dijkstra.html">
+                <div class = "card">
+                    <img class = "card-img-top" src = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\img\dijkcov.jpg" onmouseover = "dijkMouseOver()" onmouseout = "dijkMouseOut()">
+                    <div class = "card-body">
+                        <h4 class = "card-title">Dijkstra's</h4>
+                        <p class = "card-text">Bob is the smartest guy ever 
+                            and he will make 35,000 dollars by the end of his 
+                            sophomore year in college and buy a tesla
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class = "col-md-4">
+            <a id = "cardLink" href = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\html\bidijkstra.html">
+                <div class = "card">
+                    <img class = "card-img-top" src = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\img\bidijkcov.jpg" onmouseover = "biDijkMouseOver()" onmouseout = "biDijkMouseOut()">
+                    <div class = "card-body">
+                        <h4 class = "card-title">Bidirectional Dijkstra's</h4>
+                        <p class = "card-text">Bob is the smartest guy ever 
+                            and he will make 35,000 dollars by the end of his 
+                            sophomore year in college and buy a tesla
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class = "col-md-4">
+            <a id = "cardLink" href = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\html\astar.html">
+                <div class = "card">
+                    <img class = "card-img-top" src = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\img\astarcov.jpg" onmouseover = "astarMouseOver()" onmouseout = "astarMouseOut()">
+                    <div class = "card-body">
+                        <h4 class = "card-title">A*</h4>    
+                        <p class = "card-text">Bob is the smartest guy ever 
+                            and he will make 35,000 dollars by the end of his 
+                            sophomore year in college and buy a tesla
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<!----------TREES-->
+
+<div class = "container-fluid padding">
+    <div class = "row welcome text-center">
+        <div class = "col-12">
+            <h1 class = "display-4">Trees</h1>
+        </div>
+    </div>
+</div>
+
+<!--- Cards -->
+<div class = "container-fluid padding">
+    <div class = "row padding">
+        <div class = "col-md-4">
+            <div class = "card">
+                <!--put a gif of pathfinder here-->
+                <img class = "card-img-top" src = "C:\Users\dsAndrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\gifs\dfs.gif">
+                <div class = "card-body">
+                    <h4 class = "card-title">Depth-First Search</h4>
+                    <p class = "card-text">Andrew is the smartest guy ever 
+                        and he will make 35,000 dollars by the end of his 
+                        sophomore year in college and buy a tesla
+                    </p>
+                    <a href = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\html\dfs.html" class = "btn btn-outline-secondary">Visualize</a>
+                </div>
+            </div>
+        </div>
+
+        <div class = "col-md-4">
+            <div class = "card">
+                <!--put a gif of pathfinder here-->
+                <img class = "card-img-top" src = "C:\Users\Andrew\Desktop\JavaScriptWS\PathFindVis\img\team2.png">
+                <div class = "card-body">
+                    <h4 class = "card-title">Breadth-First Search</h4>
+                    <p class = "card-text">Joe is the smartest guy ever 
+                        and he will make 35,000 dollars by the end of his 
+                        sophomore year in college and buy a tesla
+                    </p>
+                    <a href = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\html\bfs.html" class = "btn btn-outline-secondary">Visualize</a>
+                </div>
+            </div>
+        </div>
+
+        <div class = "col-md-4">
+            <div class = "card">
+                <!--put a gif of pathfinder here-->
+                <img class = "card-img-top" src = "C:\Users\Andrew\Desktop\JavaScriptWS\PathFindVis\img\team3.png">
+                <div class = "card-body">
+                    <h4 class = "card-title">Dijkstra's Algorithm</h4>
+                    <p class = "card-text">Bob is the smartest guy ever 
+                        and he will make 35,000 dollars by the end of his 
+                        sophomore year in college and buy a tesla
+                    </p>
+                    <a href = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\html\dijkstra.html" class = "btn btn-outline-secondary">Visualize</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--- Footer -->
+<footer>
+    <div class = "container-fluid padding">
+        <div class = "row text-center">
+            <div class = "col-12">
+                <h6>Copyright &copy; 2020-2022, Andrew Wang - All Rights Reserved.</h6>
+            </div>
+        </div>
+</footer>
+
+
+
+</body>
+</html>
