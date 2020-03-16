@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-
-    {% include header.html %}
-
-<body>
-
-    {% include navbar.html %}
-
-<!-- grid selection-->
+---
+layout: default
+---
 
 <div class = "container-fluid padding">
     <div class = "row text-center">
@@ -17,7 +9,7 @@
         </div>
         <div class = "col-12">
             <canvas id ="canvas" width = "1200px" height = "480px" style="background: #fff; margin:20px" onmousedown = "start(event)" onmousemove = "add(event)" onmouseup = "stop()"></canvas>
-            <script src = "C:\Users\Andrew\Desktop\Computer Science Stuff\JavaScriptWS\PathFindVis\js\dfs.js"></script>
+            <script src = "assets\js\dfs.js"></script>
         </div>
         <div class = "col-12">
             <button type = "button" class = "btn btn-primary" onclick = "search()">
@@ -32,30 +24,5 @@
         </div>
     </div>
 </div>
-
-
-
-<!--- Footer -->
-<footer>
-    <div class = "container-fluid padding">
-        <div class = "row text-center">
-            <div class = "col-12">
-                <h6>Copyright &copy; 2020-2022, Andrew Wang - All Rights Reserved.</h6>
-            </div>
-        </div>
-</footer>
-
-
-
-</body>
-</html>
-
-
-
-
-
-
-
-
 
 

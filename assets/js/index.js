@@ -1,49 +1,49 @@
 function dfsMouseOver(){
-    document.getElementsByClassName("card-img-top")[0].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\gifs\\dfs.gif";
+    document.getElementsByClassName("card-img-top")[0].src = "assets\\gifs\\dfs.gif";
 }
 
 function dfsMouseOut(){
-    document.getElementsByClassName("card-img-top")[0].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\img\\dfscov.jpg";
+    document.getElementsByClassName("card-img-top")[0].src = "assets\\img\\dfscov.jpg";
 }
 
 //dfs------------------------------
 
 function bfsMouseOver(){
-    document.getElementsByClassName("card-img-top")[1].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\gifs\\bfs.gif";
+    document.getElementsByClassName("card-img-top")[1].src = "assets\\gifs\\bfs.gif";
 }
 
 function bfsMouseOut(){
-    document.getElementsByClassName("card-img-top")[1].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\img\\bfscov.jpg";
+    document.getElementsByClassName("card-img-top")[1].src = "assets\\img\\bfscov.jpg";
 }
 
 //bfs------------------------------
 
 function dijkMouseOver(){
-    document.getElementsByClassName("card-img-top")[2].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\gifs\\dijk.gif";
+    document.getElementsByClassName("card-img-top")[2].src = "assets\\gifs\\dijk.gif";
 }
 
 function dijkMouseOut(){
-    document.getElementsByClassName("card-img-top")[2].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\img\\dijkcov.jpg";
+    document.getElementsByClassName("card-img-top")[2].src = "assets\\img\\dijkcov.jpg";
 }
 
 //dijk------------------------------
 
 function biDijkMouseOver(){
-    document.getElementsByClassName("card-img-top")[3].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\gifs\\bidijk.gif";
+    document.getElementsByClassName("card-img-top")[3].src = "assets\\gifs\\bidijk.gif";
 }
 
 function biDijkMouseOut(){
-    document.getElementsByClassName("card-img-top")[3].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\img\\bidijkcov.jpg";
+    document.getElementsByClassName("card-img-top")[3].src = "assets\\img\\bidijkcov.jpg";
 }
 
 //bidijk------------------------------
 
 function astarMouseOver(){
-    document.getElementsByClassName("card-img-top")[4].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\gifs\\astar.gif";
+    document.getElementsByClassName("card-img-top")[4].src = "assets\\gifs\\astar.gif";
 }
 
 function astarMouseOut(){
-    document.getElementsByClassName("card-img-top")[4].src = "C:\\Users\\Andrew\\Desktop\\Computer Science Stuff\\JavaScriptWS\\PathFindVis\\img\\astarcov.jpg";
+    document.getElementsByClassName("card-img-top")[4].src = "assets\\img\\astarcov.jpg";
 }
 
 //astar---------------------------------
