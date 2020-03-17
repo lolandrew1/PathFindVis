@@ -6,7 +6,6 @@ applications:
 connect:
   url: /connect
 
-baseurl: "https://lolandrew1.github.io/PathFindVis/"
 
 sass:
   sass_dir: assets/css/main.css
