@@ -6,6 +6,9 @@ applications:
 connect:
   url: /connect
 
+baseurl: "/PathFindVis"
+url: "https://lolandrew1.github.io"
+
 sass:
   sass_dir: assets/css/main.css
   style: :nested
