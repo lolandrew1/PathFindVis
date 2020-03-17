@@ -2,7 +2,7 @@ docs_list_title: navbarlist
 docs:
 
 - title: applications
-  url: applications.html
+  url: /applications
 
 - title: connect
-  url: connect.html
+  url: /connect
