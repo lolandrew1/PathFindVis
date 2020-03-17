@@ -2,8 +2,7 @@ docs_list_title: navbarlist
 docs:
 
 - title: applications
-  #url: /applications
-  github_url: https://github.com/lolandrew1/PathFindVis/blob/master/applications.html
+  url: https://github.com/lolandrew1/PathFindVis/blob/master/applications.html
 
 - title: connect
   url: /connect
