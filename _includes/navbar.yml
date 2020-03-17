@@ -1,0 +1,5 @@
+connect:
+  url: /connect
+
+applications:
+  url: /applications
