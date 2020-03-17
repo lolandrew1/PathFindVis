@@ -1,7 +1,11 @@
 name: My Jekyll Website
 
-baseurl: ""
-url: "https://lolandrew1.github.io/"
+applications:
+  url: /applications
 
+connect:
+  url: /connect
+
+sass:
   sass_dir: assets/css/main.css
   style: :nested
