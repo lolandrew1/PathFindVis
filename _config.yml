@@ -1,5 +1,11 @@
 name: My Jekyll Website
 
+applications:
+  url: /applications
+
+connect:
+  url: /connect
+
 sass:
   sass_dir: assets/css/main.css
   style: :nested
