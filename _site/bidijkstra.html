@@ -35,17 +35,37 @@
                     <a class = "nav-link" href = "/">Home</a>
                 </li>
                 <li class = "nav-item">
-                    <a class = "nav-link" href = "/PathFindVis/applications/">Applications</a>
+                    <a class = "nav-link" href = "/applications">Applications</a>
                 </li>
                 <li class = "nav-item">
-                    <a class = "nav-link" href = "/PathFindVis/connect/">Connect</a>
+                    <a class = "nav-link" href = "/connect">Connect</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-   
+   <!-- grid selection-->
+
+<div class = "container-fluid padding">
+    <div class = "row text-center">
+        <div class = "col-12">
+            <h1 class = "display-4">Bidirectional Dijkstra's</h1>
+        </div>
+        <div class = "col-12">
+            <canvas id ="canvas" width = "1200px" height = "480px" style="background: #fff; margin:20px" onmousedown = "start(event)" onmousemove = "add(event)" onmouseup = "stop()"></canvas>
+            <script src = "assets\js\bidijkstra.js"></script>
+        </div>
+        <div class = "col-12">
+            <button type = "button" class = "btn btn-primary" onclick = "search()">
+                Visualize
+            </button>
+            <button type = "button" class = "btn btn-primary" onclick = "reset()">
+                Reset  
+            </button>
+        </div>
+    </div>
+</div>
 
    <footer>
     <div class = "container-fluid padding">
