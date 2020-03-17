@@ -1,5 +1,3 @@
 name: My Jekyll Website
 
-
-  sass_dir: assets/css/main.css
   style: :nested
