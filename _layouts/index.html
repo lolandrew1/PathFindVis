@@ -3,6 +3,13 @@ layout: default
 title: "index"
 ---
 
+<h2>{{ site.data.navbar.navbarlist }}</h2>
+<ul>
+   {% for item in site.data.navbar.navbarlist %}
+      <li><a href="{{ item.url }}">{{ item.title }}</a></li>
+   {% endfor %}
+</ul>
+
 
 <div class = "container-fluid padding">
     <div class = "row welcome text-center">

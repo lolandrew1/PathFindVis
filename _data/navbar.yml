@@ -1,5 +1,8 @@
-connect:
-  url: /connect
+docs_list_title: navbarlist
+docs:
 
-applications:
-  url: /applications
+- title: applications
+  url: applications.html
+
+- title: connect
+  url: connect.html
