@@ -305,3 +305,15 @@ function calcH(r, c){
     var D = 1;
     return Math.floor(dx + dy);
 }
+
+function clearWalls(){
+    for(var i = 0; i < numDiv; i++){
+        for(var j = 0; j < numDivY; j++){
+            if(grid[i][j] == 1){
+                grid[i][j] = 0;
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+            }
+        }
+    }
+}

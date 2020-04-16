@@ -388,3 +388,15 @@ function reset(){
     grid[endR][endC] = 5;//temporarily here
     grid[startR][startC] = 5;//temporarily here
 }
+
+function clearWalls(){
+    for(var i = 0; i < numDiv; i++){
+        for(var j = 0; j < numDivY; j++){
+            if(grid[i][j] == 1){
+                grid[i][j] = 0;
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+            }
+        }
+    }
+}

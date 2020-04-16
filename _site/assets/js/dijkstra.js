@@ -262,3 +262,15 @@ function reset(){
     prioq = [];
     adj[10 * numDivY + 10] = 10 * numDivY + 10;
 }
+
+function clearWalls(){
+    for(var i = 0; i < numDiv; i++){
+        for(var j = 0; j < numDivY; j++){
+            if(grid[i][j] == 1){
+                grid[i][j] = 0;
+                ctx.fillStyle = "#fff";
+                ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+            }
+        }
+    }
+}
