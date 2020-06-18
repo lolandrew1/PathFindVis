@@ -1,0 +1,26 @@
+<!-- grid selection-->
+
+
+<div class = "container-fluid padding">
+    <div class = "row text-center">
+        <div class = "col-12">
+            <h1 class = "display-4">A*</h1>
+        </div>
+        <div class = "col-12">
+            <canvas id ="canvas" width = "1200px" height = "480px" style="background: #fff; margin:20px" onmousedown = "start(event)" onmousemove = "add(event)" onmouseup = "stop()"></canvas>
+            <script src = "assets\js\astar.js"></script>
+        </div>
+        
+        <div class = "col-12">
+            <button type = "button" class = "btn btn-primary" onclick = "search()">
+                Visualize
+            </button>
+            <button type = "button" class = "btn btn-primary" onclick = "reset()">
+                Reset  
+            </button>
+            <button type = "button" class = "btn btn-primary" onclick = "clearWalls()">
+                Clear Walls 
+            </button>
+        </div>
+    </div>
+</div>
