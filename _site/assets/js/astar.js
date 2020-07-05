@@ -15,6 +15,11 @@ var stepsize = new Array(numDiv);
 var totWeight = new Array(numDiv)
 var prioq = [];
 var holdMouse = false;
+var last_state = 0;
+var ismoving;
+var startr, startc;
+var endr, endc;
+var isfinding = false;   
 
 setup();
 
@@ -28,6 +33,7 @@ var animate = window.setInterval(draw,6);
 var dim = canvas.clientWidth;
 let arrC = [0, -1, 0,1];
 let arrR = [1, 0,-1, 0];
+var styles = ["#fff", "#000", "#425df5", "#f70052", "#14ff7a", "#ff14e0"];
 
 function setup() {
     for(var i = 0; i < numDiv; i++){
@@ -45,51 +51,68 @@ function setup() {
     }
     counter = 0;
 
-    grid[30][20] = 3;
-    grid[10][10] = 5;
+    startr = 10;
+    startc = 10;
+    endr = 40;
+    endc = 20;
+    grid[endr][endc] = 3;
+    grid[startr][startc] = 5;
 
 }
 
 function draw() {
     if (canvas.getContext) {
-
+        ctx.fillStyle = "#asdfas";
         for(var i = 0; i < numDiv; i++){
-            for(var j = 0; j < numDivY; j++){
+            for(var j = 0; j < numDiv; j++){
                 if(grid[i][j] == 0){ //empty space
                     ctx.strokeStyle = "#89C4F4";
                     ctx.strokeRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    continue;
                 }
                 else if(grid[i][j] == 1){ //wall
-                    ctx.fillStyle = "#000";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[1];
                 }
                 else if(grid[i][j] == 2){ //visited space
-                    ctx.fillStyle = "#425df5";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[2];
                 }
                 else if(grid[i][j] == 3){ //end space
-                    ctx.fillStyle = "#f70052";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[3];
                 }
                 else if(grid[i][j] == 4){ //path found
-                    ctx.fillStyle = "#14ff7a";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[4];
                 }
                 else if(grid[i][j] == 5){ // start
-                    ctx.fillStyle = "#ff14e0";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[5];
                 }
+                ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
             }
         }
     }
 }
 
 function start(event){
+    if(isfinding)return;
     holdMouse = true;
+    rect = canvas.getBoundingClientRect();
+    var x = (event.clientX - rect.left);
+    var y = (event.clientY - rect.top);
+
+    var i = Math.round(x / canvas.clientWidth * numDiv - 0.5);
+    var j = Math.round(y / canvas.clientWidth * numDiv - 0.5);
+
+    ismoving = grid[i][j];
+    if(ismoving == 0) ismoving = 1;
     add(event);
 }
 
+function stop(){
+    holdMouse = false;
+    ismoving = 0;
+}
+
 function add(event){
+    if(isfinding)return;
     if(holdMouse == true)
     {
         rect = canvas.getBoundingClientRect();
@@ -99,22 +122,57 @@ function add(event){
         var i = Math.round(x / canvas.clientWidth * numDiv - 0.5);
         var j = Math.round(y / canvas.clientWidth * numDiv - 0.5);
 
-        grid[i][j] = 1;
-    }
-}
 
-function stop(){
-    holdMouse = false;
+        if(ismoving == 5){
+            if(grid[i][j] == 5 || grid[i][j] == 3) return;
+
+            //set last block to what is was before
+            grid[startr][startc] = last_state;
+            
+            ctx.fillStyle = styles[last_state];
+            ctx.fillRect(startr * dim/numDiv, startc * dim/numDiv, dim/numDiv, dim/numDiv);
+
+            //record the state of the current block
+            startr = i;
+            startc = j;
+            last_state = grid[i][j];
+
+            //change the current block state
+            grid[i][j] = 5;
+        }
+        else if(ismoving == 3){
+            if(grid[i][j] == 5 || grid[i][j] == 3) return;
+
+            //set last block to what is was before
+            grid[endr][endc] = last_state;
+            ctx.fillStyle = styles[last_state];
+            ctx.fillRect(endr * dim/numDiv, endc * dim/numDiv, dim/numDiv, dim/numDiv);
+
+            //record the state of the current block
+            endr = i;
+            endc = j;
+            last_state = grid[i][j];
+
+            //change the current block state
+            grid[i][j] = 3;
+        }
+        else if(ismoving == 1){
+            if(grid[i][j] == 3 || grid[i][j] == 5) return;
+            grid[i][j] = 1;
+            ctx.fillStyle = styles[1];
+            ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+        }
+    }
 }
 
 
 function search(){
     reset();
-    prioq.push(new Node(10, 10));
+    prioq.push(new Node(startr, startc));
     prioq.push(new Node(40, 40));
-    weight[10][10] = 0;
+    weight[startr][startc] = 0;
     weight[40][40] = INT_MAX;
-    totWeight[10][10] = calcH(10, 10);
+    totWeight[startr][startc] = calcH(startr, startc);
     totWeight[40][40] = calcH(40, 40);
     helper();
 }
@@ -160,7 +218,7 @@ async function helper(){
                 qin(currR, currC, indx);
             }
         }
-        grid[10][10] = 5;
+        grid[startr][startc] = 5;
         indx++;
     }
 
@@ -173,7 +231,7 @@ async function helper(){
         c = totWeight[a][b];
         //console.log(a + " " + b + " " + c);
     }
-    grid[10][10] = 5;
+    grid[startr][startc] = 5;
 }
 
 
@@ -257,7 +315,6 @@ function check(r, c, w){
                 totWeight[r][c] -= (weight[r][c] - (w + stepsize[r][c]));
             }
             weight[r][c] = w + stepsize[r][c];
-            console.log(r + " " + c);
             return true
         }
         return false;
@@ -295,12 +352,12 @@ function reset(){
         }
     }
     prioq = [];
-    adj[10 * numDivY + 10] = 10 * numDivY + 10;
+    adj[startr * numDivY + startc] = startr * numDivY + startc;
 }
 
 
 function calcH(r, c){
-    var dx = (30-r) * (31-r);
+    var dx = (endr-r) * (endr+1-r);
     var dy = Math.abs(20-c);
     var D = 1;
     return Math.floor(dx + dy);

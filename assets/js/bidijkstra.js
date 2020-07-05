@@ -15,7 +15,10 @@ var stepsize = new Array(numDiv);
 var prioq = [];
 var prioq2 = [];
 var holdMouse = false;
-var startR, startC, endR, endC;
+var last_state = 0;
+var ismoving;
+var isfinding = false;   
+var startr, startc, endr, endc;
 
 setup();
 
@@ -29,6 +32,7 @@ var animate = window.setInterval(draw,6);
 var dim = canvas.clientWidth;
 let arrR = [0, -1, 0,1];
 let arrC = [1, 0,-1, 0];
+var styles = ["#fff", "#000", "#425df5", "#f70052", "#14ff7a", "#ff14e0"];
 
 function setup() {
     for(var i = 0; i < numDiv; i++){
@@ -45,53 +49,67 @@ function setup() {
     }
     counter = 0;
 
-    startR = 10, startC = 10;
-    endR = 30, endC = 10;
+    startr = 10, startc = 10;
+    endr = 30, endc = 10;
 
-    grid[startR][startC] = 5;
-    grid[endR][endC] = 5;
+    grid[startr][startc] = 5;
+    grid[endr][endc] = 5;
 }
 
 function draw() {
     if (canvas.getContext) {
-
+        ctx.fillStyle = "#asdfas";
         for(var i = 0; i < numDiv; i++){
-            for(var j = 0; j < numDivY; j++){
+            for(var j = 0; j < numDiv; j++){
                 if(grid[i][j] == 0){ //empty space
                     ctx.strokeStyle = "#89C4F4";
                     ctx.strokeRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    continue;
                 }
                 else if(grid[i][j] == 1){ //wall
-                    ctx.fillStyle = "#000";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[1];
                 }
-                else if(grid[i][j] == 2){ //visited space left
-                    ctx.fillStyle = "#425df5";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                else if(grid[i][j] == 2){ //visited space
+                    ctx.fillStyle = styles[2];
                 }
-                else if(grid[i][j] == 3){ //visited space right
-                    ctx.fillStyle = "#425df5";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                else if(grid[i][j] == 3){ //end space
+                    ctx.fillStyle = styles[3];
                 }
                 else if(grid[i][j] == 4){ //path found
-                    ctx.fillStyle = "#14ff7a";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[4];
                 }
                 else if(grid[i][j] == 5){ // start
-                    ctx.fillStyle = "#ff14e0";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[5];
                 }
+                ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
             }
         }
     }
 }
 
 function start(event){
+    if(isfinding)return;
     holdMouse = true;
+    rect = canvas.getBoundingClientRect();
+    var x = (event.clientX - rect.left);
+    var y = (event.clientY - rect.top);
+
+    var i = Math.round(x / canvas.clientWidth * numDiv - 0.5);
+    var j = Math.round(y / canvas.clientWidth * numDiv - 0.5);
+
+    if(grid[i][j] == 0) ismoving = 1;
+    if(grid[i][j] == 5) ismoving = 5;
+    if(i == endr && j == endc) ismoving = 6;
     add(event);
 }
 
+function stop(){
+    holdMouse = false;
+    ismoving = 0;
+}
+
 function add(event){
+    if(isfinding)return;
     if(holdMouse == true)
     {
         rect = canvas.getBoundingClientRect();
@@ -101,12 +119,47 @@ function add(event){
         var i = Math.round(x / canvas.clientWidth * numDiv - 0.5);
         var j = Math.round(y / canvas.clientWidth * numDiv - 0.5);
 
-        grid[i][j] = 1;
-    }
-}
 
-function stop(){
-    holdMouse = false;
+        if(ismoving == 5){
+            if(grid[i][j] == 5 || grid[i][j] == 3) return;
+
+            //set last block to what is was before
+            grid[startr][startc] = last_state;
+            
+            ctx.fillStyle = styles[last_state];
+            ctx.fillRect(startr * dim/numDiv, startc * dim/numDiv, dim/numDiv, dim/numDiv);
+
+            //record the state of the current block
+            startr = i;
+            startc = j;
+            last_state = grid[i][j];
+
+            //change the current block state
+            grid[i][j] = 5;
+        }
+        else if(ismoving == 6){
+            if(grid[i][j] == 5 || grid[i][j] == 3) return;
+
+            //set last block to what is was before
+            grid[endr][endc] = last_state;
+            ctx.fillStyle = styles[last_state];
+            ctx.fillRect(endr * dim/numDiv, endc * dim/numDiv, dim/numDiv, dim/numDiv);
+
+            //record the state of the current block
+            endr = i;
+            endc = j;
+            last_state = grid[i][j];
+
+            //change the current block state
+            grid[i][j] = 5;
+        }
+        else if(ismoving == 1){
+            if(grid[i][j] == 3 || grid[i][j] == 5) return;
+            grid[i][j] = 1;
+            ctx.fillStyle = styles[1];
+            ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+        }
+    }
 }
 
 
@@ -339,7 +392,6 @@ async function ending(num, num2){
             r = Math.floor(num/numDivY);
             c = num % numDivY;
             grid[r][c] = 4;
-            console.log(alt + " " + r + " " + c);
             num = adj[num];
             bob = await doSetTimeoutFin();
             alt = !alt;
@@ -348,14 +400,13 @@ async function ending(num, num2){
             r = Math.floor(num2/numDivY);
             c = num2 % numDivY;
             grid[r][c] = 4;
-            console.log(alt + " " + r + " " + c);
             num2 = adj[num2];
             bob = await doSetTimeoutFin();
             alt = !alt;
         }
     }
-    grid[endR][endC] = 5;//temporarily here
-    grid[startR][startC] = 5;//temporarily here
+    grid[endr][endc] = 5;//temporarily here
+    grid[startr][startc] = 5;//temporarily here
 
 }
 
@@ -377,16 +428,16 @@ function reset(){
     }
     prioq = [];
     prioq2 = [];
-    adj[startR * numDivY + startC] = startR * numDivY + startC;
-    adj[endR * numDivY + endC] = endR * numDivY + endC;
+    adj[startr * numDivY + startc] = startr * numDivY + startc;
+    adj[endr * numDivY + endc] = endr * numDivY + endc;
 
-    prioq.push(new Node(10, 10));
-    prioq2.push(new Node(30, 10));
-    weight[startR][startC] = 0;
-    weight[endR][endC] = 0;
+    prioq.push(new Node(startr, startc));
+    prioq2.push(new Node(endr, endc));
+    weight[startr][startc] = 0;
+    weight[endr][endc] = 0;
 
-    grid[endR][endC] = 5;//temporarily here
-    grid[startR][startC] = 5;//temporarily here
+    grid[endr][endc] = 5;//temporarily here
+    grid[startr][startc] = 5;//temporarily here
 }
 
 function clearWalls(){

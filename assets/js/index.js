@@ -47,3 +47,13 @@ function astarMouseOut(){
 }
 
 //astar---------------------------------
+
+function euclideanMouseOver(){
+    document.getElementsByClassName("card-img-top")[5].src = "assets\\gifs\\__"
+}
+
+function euclideanMouseOut(){
+
+}
+
+//euclidean algorithm

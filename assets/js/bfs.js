@@ -12,6 +12,10 @@ let grid = new Array(numDiv);
 var queue = [];
 var adj = new Array(numDiv * numDivY);
 var holdMouse = false;
+var last_state = 0;
+var startr, startc;
+var ismoving;
+var isfinding = false;   
 setup();
 
 var canvas = document.getElementById("canvas");
@@ -24,6 +28,7 @@ var animate = window.setInterval(draw,6);
 var dim = canvas.clientWidth;
 let arrR = [0, -1, 0,1];
 let arrC = [1, 0,-1, 0];
+var styles = ["#fff", "#000", "#425df5", "#f70052", "#14ff7a", "#ff14e0"];
 
 function setup() {
     var dim = 1200;
@@ -38,61 +43,69 @@ function setup() {
     }
     counter = 0;
 
-    grid[20][10] = 3;
-    grid[10][10] = 5;
+    startr = 10;
+    startc = 13;
+    endr = 40;
+    endc = 13;
+    grid[endr][endc] = 3;
+    grid[startr][startc] = 5;
 
 }
 
 function draw() {
     if (canvas.getContext) {
-
+        ctx.fillStyle = "#asdfas";
         for(var i = 0; i < numDiv; i++){
             for(var j = 0; j < numDiv; j++){
                 if(grid[i][j] == 0){ //empty space
                     ctx.strokeStyle = "#89C4F4";
                     ctx.strokeRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    continue;
                 }
                 else if(grid[i][j] == 1){ //wall
-                    ctx.fillStyle = "#000";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[1];
                 }
                 else if(grid[i][j] == 2){ //visited space
-                    ctx.fillStyle = "#425df5";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[2];
                 }
                 else if(grid[i][j] == 3){ //end space
-                    ctx.fillStyle = "#f70052";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[3];
                 }
                 else if(grid[i][j] == 4){ //path found
-                    ctx.fillStyle = "#14ff7a";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[4];
                 }
                 else if(grid[i][j] == 5){ // start
-                    ctx.fillStyle = "#ff14e0";
-                    ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+                    ctx.fillStyle = styles[5];
                 }
+                ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
             }
         }
     }
 }
 
-function printArray(){
-    var dim = canvas.clientWidth;
-    for(var i = 0; i < numDiv; i++){
-        for(var j = 0; j < numDiv; j++){
-            document.write(grid[i][j] + " ");
-        }
-        document.write("<br>");
-    }
-}
 
 function start(event){
+    if(isfinding)return;
     holdMouse = true;
+    rect = canvas.getBoundingClientRect();
+    var x = (event.clientX - rect.left);
+    var y = (event.clientY - rect.top);
+
+    var i = Math.round(x / canvas.clientWidth * numDiv - 0.5);
+    var j = Math.round(y / canvas.clientWidth * numDiv - 0.5);
+
+    ismoving = grid[i][j];
+    if(ismoving == 0) ismoving = 1;
     add(event);
 }
 
+function stop(){
+    holdMouse = false;
+    ismoving = 0;
+}
+
 function add(event){
+    if(isfinding)return;
     if(holdMouse == true)
     {
         rect = canvas.getBoundingClientRect();
@@ -102,23 +115,58 @@ function add(event){
         var i = Math.round(x / canvas.clientWidth * numDiv - 0.5);
         var j = Math.round(y / canvas.clientWidth * numDiv - 0.5);
 
-        grid[i][j] = 1;
-    }
-}
 
-function stop(){
-    holdMouse = false;
+        if(ismoving == 5){
+            if(grid[i][j] == 5 || grid[i][j] == 3) return;
+
+            //set last block to what is was before
+            grid[startr][startc] = last_state;
+            
+            ctx.fillStyle = styles[last_state];
+            ctx.fillRect(startr * dim/numDiv, startc * dim/numDiv, dim/numDiv, dim/numDiv);
+
+            //record the state of the current block
+            startr = i;
+            startc = j;
+            last_state = grid[i][j];
+
+            //change the current block state
+            grid[i][j] = 5;
+        }
+        else if(ismoving == 3){
+            if(grid[i][j] == 5 || grid[i][j] == 3) return;
+
+            //set last block to what is was before
+            grid[endr][endc] = last_state;
+            ctx.fillStyle = styles[last_state];
+            ctx.fillRect(endr * dim/numDiv, endc * dim/numDiv, dim/numDiv, dim/numDiv);
+
+            //record the state of the current block
+            endr = i;
+            endc = j;
+            last_state = grid[i][j];
+
+            //change the current block state
+            grid[i][j] = 3;
+        }
+        else if(ismoving == 1){
+            if(grid[i][j] == 3 || grid[i][j] == 5) return;
+            grid[i][j] = 1;
+            ctx.fillStyle = styles[1];
+            ctx.fillRect(i * dim/numDiv, j * dim/numDiv, dim/numDiv, dim/numDiv);
+        }
+    }
 }
 
 
 function search(r, c){
     reset();
-    queue.push(new Node(10,10));
+    queue.push(new Node(startr,startc));
     helperQueue();
 }
 //-----------------------------
 
-adj[numDivY * 10 + 10] = (numDivY * 10 + 10);
+adj[startr * 10 + startc] = (numDivY * startr + startc);
 
 async function helperQueue(){
     var thisNode;
@@ -176,7 +224,7 @@ function doSetTimeoutFin() {
     });
 }
 
-  function check(r, c){
+function check(r, c){
     if(r < 0 || r >= numDiv || c < 0 || c >= numDivY){
         return false;
     }
@@ -211,7 +259,7 @@ function reset(){
         }
     }
     queue = [];
-    adj[10 * numDivY + 10] = 10 * numDivY + 10;
+    adj[startr * numDivY + startc] = startr * numDivY + startc;
 }
 
 function clearWalls(){
